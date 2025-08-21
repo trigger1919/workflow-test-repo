@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Test workflow
 # Display current date and time in UTC format
 # Usage: ./show_utc_date.sh [format]
 # Environment variable: UTC_DATE_FORMAT
