@@ -17,7 +17,8 @@ jobs:
     - name: Run
       uses: ./.github/actions/run-bash
       env:
-        UTC_DATE_FORMAT: iso
+        UTC_DATE_FORMAT: ${{secrets.SECRET_1}}
+
       #with:
       #  time-format: iso
       

@@ -11,7 +11,7 @@ runs:
       run: bash ./show_utc_date.sh
       shell: bash
       env:
-        UTC_DATE_FORMAT: ${{env.UTC_DATE_FORMAT}}
+        UTC_DATE_FORMAT: ${{env.SECRET_1}}
 
     - name: "Echo env"
       run: echo $UTC_DATE_FORMAT
