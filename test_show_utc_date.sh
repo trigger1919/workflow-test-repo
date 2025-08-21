@@ -30,47 +30,78 @@ fi
 
 echo ""
 
-# Test 2: Run the script and capture output
-echo "Test 2: Running the script and checking output..."
+# Test 2: Test help functionality
+echo "Test 2: Testing help functionality..."
+help_output=$(./show_utc_date.sh --help 2>&1)
+help_exit_code=$?
+
+if [ $help_exit_code -eq 0 ]; then
+    echo "✓ Help command executed successfully"
+else
+    echo "✗ Help command failed with exit code: $help_exit_code"
+fi
+
+if echo "$help_output" | grep -q "Usage:"; then
+    echo "✓ Help output contains usage information"
+else
+    echo "✗ Help output missing usage information"
+fi
+
+echo ""
+
+# Test 3: Test default execution (no parameters)
+echo "Test 3: Testing default execution..."
 output=$(./show_utc_date.sh 2>&1)
 exit_code=$?
 
 if [ $exit_code -eq 0 ]; then
-    echo "✓ Script executed successfully (exit code: $exit_code)"
+    echo "✓ Script executed successfully with default format (exit code: $exit_code)"
 else
     echo "✗ Script failed with exit code: $exit_code"
     echo "Output: $output"
     exit 1
 fi
 
+if echo "$output" | grep -q "UTC Date (format: default):"; then
+    echo "✓ Contains expected header for default format"
+else
+    echo "✗ Missing expected header for default format"
+fi
+
 echo ""
 
-# Test 3: Verify output contains expected elements
-echo "Test 3: Verifying output format..."
+# Test 4: Test predefined format shortcuts
+echo "Test 4: Testing predefined format shortcuts..."
 
-# Check for expected text patterns
-if echo "$output" | grep -q "Current UTC date and time:"; then
-    echo "✓ Contains main header"
+# Test ISO format
+iso_output=$(./show_utc_date.sh iso 2>&1)
+if echo "$iso_output" | grep -q "UTC Date (format: iso):"; then
+    echo "✓ ISO format shortcut works"
+    # Validate ISO format pattern
+    iso_date=$(echo "$iso_output" | tail -1)
+    if echo "$iso_date" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$'; then
+        echo "✓ ISO format output is valid: $iso_date"
+    else
+        echo "✗ ISO format output is invalid: $iso_date"
+    fi
 else
-    echo "✗ Missing main header"
+    echo "✗ ISO format shortcut failed"
 fi
 
-if echo "$output" | grep -q "ISO 8601 format:"; then
-    echo "✓ Contains ISO 8601 section"
+# Test RFC format
+rfc_output=$(./show_utc_date.sh rfc 2>&1)
+if echo "$rfc_output" | grep -q "UTC Date (format: rfc):"; then
+    echo "✓ RFC format shortcut works"
 else
-    echo "✗ Missing ISO 8601 section"
+    echo "✗ RFC format shortcut failed"
 fi
 
-if echo "$output" | grep -q "RFC 3339 format:"; then
-    echo "✓ Contains RFC 3339 section"
+# Test readable format
+readable_output=$(./show_utc_date.sh readable 2>&1)
+if echo "$readable_output" | grep -q "UTC Date (format: readable):"; then
+    echo "✓ Readable format shortcut works"
 else
-    echo "✗ Missing RFC 3339 section"
-fi
-
-if echo "$output" | grep -q "Custom readable format:"; then
-    echo "✓ Contains custom format section"
-else
-    echo "✗ Missing custom format section"
+    echo "✗ Readable format shortcut failed"
 fi
 
 echo ""
