@@ -1,0 +1,18 @@
+name: Test-workflow
+
+on:
+  pull_request:
+    paths:
+      - show_utc_date.sh
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Run
+      run: bash test_show_utc_date.sh
+      
