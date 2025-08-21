@@ -9,4 +9,4 @@ runs:
   steps:
     - name: "Run time"
       shell: bash
-      run: show_utc_date.sh $0 "${{inputs.time-format}}"
+      run: show_utc_date.sh "${{inputs.time-format}}"

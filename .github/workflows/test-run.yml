@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - show_utc_date.sh
+  push:
+    paths:
+      - show_utc_date.sh
   workflow_dispatch:
 
 jobs:
@@ -14,7 +17,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Run
-      uses: .github/actions/run-bash
+      uses: ./github/actions/run-bash
       with:
         time-format: iso
       
