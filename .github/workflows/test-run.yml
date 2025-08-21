@@ -5,8 +5,6 @@ on:
     paths:
       - show_utc_date.sh
   push:
-    paths:
-      - show_utc_date.sh
   workflow_dispatch:
 
 jobs:
@@ -17,7 +15,9 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Run
-      uses: ./github/actions/run-bash
-      with:
-        time-format: iso
+      uses: ./.github/actions/run-bash
+      env:
+        UTC_DATE_FORMAT: iso
+      #with:
+      #  time-format: iso
       

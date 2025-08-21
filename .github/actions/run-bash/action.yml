@@ -1,0 +1,18 @@
+name: "Run bash time"
+description: "Run bash time"
+inputs:
+  time-format:
+    description: "Time to wait"
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: "Run time"
+      run: bash ./show_utc_date.sh
+      shell: bash
+      env:
+        UTC_DATE_FORMAT: ${{env.UTC_DATE_FORMAT}}
+
+    - name: "Echo env"
+      run: echo $UTC_DATE_FORMAT
+      shell: bash
